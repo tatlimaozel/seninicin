@@ -1292,3 +1292,24 @@ body.locked {
         font-size: 1.1rem;
     }
 }
+
+/* Tablet Ekranlar İçin (Max 900px) */
+@media (max-width: 900px) {
+    .text-layer h1 {
+        font-size: 2.5rem;
+        white-space: normal;
+        padding: 0 40px;
+        line-height: 1.5;
+    }
+}
+
+/* Mobil Ekranlar İçin (Max 600px) */
+@media (max-width: 600px) {
+    .text-layer h1 {
+        font-size: 1.8rem;
+        white-space: normal;
+        padding: 0 20px;
+        line-height: 1.4;
+        letter-spacing: 1px;
+    }
+}
