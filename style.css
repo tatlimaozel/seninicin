@@ -1,0 +1,1294 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    height: 1300vh;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    transition: background 1.5s ease;
+}
+
+body.bg-nebula {
+    background: radial-gradient(circle at center, rgba(30, 10, 20, 0.9) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    transition: opacity 1.5s ease;
+}
+
+/* --- ORTAK SAHNE YAPISI --- */
+.scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.scene.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* --- 1. SAHNE: YAZILAR --- */
+.text-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.text-layer h1 {
+    position: absolute;
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.text-layer h1.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* --- 2. SAHNE: SAYAÇ --- */
+.heart-container {
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 15px rgba(255, 77, 77, 0.6));
+}
+
+.heart {
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    15%,
+    45% {
+        transform: scale(1.15);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+}
+
+.timer-title {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.counter-container {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.time-box {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 25px 30px;
+    min-width: 130px;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.time-box span {
+    display: block;
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #ffd6e0;
+    font-family: sans-serif;
+}
+
+.time-box p {
+    font-size: 1.1rem;
+    color: #b3b3b3;
+    letter-spacing: 2px;
+}
+
+/* --- 3. SAHNE: ARA YAZI --- */
+.transition-text {
+    font-size: 3.5rem;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    padding: 0 20px;
+}
+
+/* --- 4. SAHNE: KARTLAR --- */
+.section-title {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1100px;
+    width: 90%;
+}
+
+.card {
+    background-color: transparent;
+    width: 100%;
+    height: 240px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card-front {
+    background: rgba(20, 20, 20, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.card-front .icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.card-front h3 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.tap-hint {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #888;
+    font-family: sans-serif;
+    opacity: 0.8;
+}
+
+.card-back {
+    background: #101010;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transform: rotateY(180deg);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.1);
+}
+
+.card-back p {
+    color: #ffcc00;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
+}
+
+/* --- 5. SAHNE: MEKTUPLAR --- */
+#scene-5 {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 0 5%;
+}
+
+.timeline-container {
+    position: relative;
+    width: 4px;
+    height: 70vh;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    transition: height 0.1s linear;
+}
+
+.letters-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70vh;
+    width: 100%;
+    max-width: 600px;
+}
+
+.letter-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    opacity: 0.3;
+    transform: translateX(-20px);
+    transition: all 0.5s ease;
+}
+
+.letter-wrapper.opened {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.envelope {
+    position: relative;
+    width: 60px;
+    height: 45px;
+    background: #d4af37;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    z-index: 3;
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    z-index: 4;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 25px solid #f1c40f;
+    transform-origin: top;
+    transition: transform 0.6s ease;
+    z-index: 5;
+}
+
+.letter-wrapper.opened .flap {
+    transform: rotateX(180deg);
+    z-index: 2;
+}
+
+.paper {
+    background: #111;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-left: -50px;
+    opacity: 0;
+    z-index: 1;
+    transition: all 0.8s ease 0.3s;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
+
+.letter-wrapper.opened .paper {
+    opacity: 1;
+    margin-left: 20px;
+}
+
+.paper p {
+    color: #ffcc00;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.2);
+    margin: 0;
+    white-space: nowrap;
+}
+
+
+/* ========================================================
+   RESPONSIVE KODLARI (TABLET & MOBİL İÇİN)
+   ======================================================== */
+
+/* Tablet (Max 900px) */
+@media (max-width: 900px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+        height: 200px;
+    }
+
+    #scene-5 {
+        max-width: 90%;
+    }
+}
+
+/* Mobil Cihazlar (Max 600px) */
+@media (max-width: 600px) {
+
+    /* 2. Sahne - Sayaç */
+    .timer-title {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        padding: 0 15px;
+    }
+
+    .counter-container {
+        gap: 12px;
+        padding: 0 10px;
+    }
+
+    .time-box {
+        padding: 15px 12px;
+        min-width: 75px;
+        border-radius: 12px;
+    }
+
+    .time-box span {
+        font-size: 1.8rem;
+        margin-bottom: 2px;
+    }
+
+    .time-box p {
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+
+    .heart {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* 3. Sahne - Ara Yazı */
+    .transition-text {
+        font-size: 1.8rem;
+        padding: 0 20px;
+    }
+
+    /* 4. Sahne - Kartlar Grid */
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 25px;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        width: 85%;
+    }
+
+    .card {
+        height: 180px;
+    }
+
+    .card-front {
+        padding: 15px;
+    }
+
+    .card-front .icon {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+
+    .card-front h3 {
+        font-size: 1.5rem;
+    }
+
+    .card-back {
+        padding: 20px;
+    }
+
+    .card-back p {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    /* 5. Sahne - Mektuplar & Timeline */
+    #scene-5 {
+        gap: 15px;
+        padding: 0 20px;
+    }
+
+    .letters-container {
+        height: 60vh;
+    }
+
+    /* Mobil zarf boyutları */
+    .envelope {
+        width: 45px;
+        height: 35px;
+    }
+
+    .flap {
+        border-left: 22.5px solid transparent;
+        border-right: 22.5px solid transparent;
+        border-top: 19px solid #f1c40f;
+    }
+
+    .paper {
+        padding: 12px 15px;
+        margin-left: -30px;
+    }
+
+    .letter-wrapper.opened .paper {
+        margin-left: 15px;
+    }
+
+    /* Mektup yazısının mobilde ekrandan taşmasını engeller */
+    .paper p {
+        font-size: 0.95rem;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
+/* Mobil Cihazlar (Max 600px) */
+@media (max-width: 600px) {
+
+    /* 2. Sahne - Sayaç */
+    .timer-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+
+    .counter-container {
+        gap: 8px;
+        padding: 0 5px;
+    }
+
+    .time-box {
+        padding: 12px 8px;
+        min-width: 65px;
+        border-radius: 10px;
+    }
+
+    .time-box span {
+        font-size: 1.4rem;
+        margin-bottom: 2px;
+    }
+
+    .time-box p {
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+
+    .heart {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* 3. Sahne - Ara Yazı */
+    .transition-text {
+        font-size: 1.6rem;
+        padding: 0 15px;
+    }
+
+    /* 4. Sahne - Kartlar Grid (DÜZELTİLEN 3'LÜ YAN YANA YAPI) */
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 kart yan yana kalır */
+        gap: 8px;
+        /* Boşluklar iyice daraltıldı */
+        width: 98%;
+    }
+
+    .card {
+        height: 130px;
+    }
+
+    /* Kartların yüksekliği daraltıldı */
+
+    .card-front,
+    .card-back {
+        padding: 8px;
+        border-radius: 10px;
+    }
+
+    .card-front .icon {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+
+    .card-front h3 {
+        font-size: 0.8rem;
+        letter-spacing: 0;
+    }
+
+    .tap-hint {
+        margin-top: 4px;
+        font-size: 0.6rem;
+    }
+
+    /* Arka yüzdeki yazılar dar alana sığması için küçültüldü */
+    .card-back p {
+        font-size: 0.7rem;
+        line-height: 1.2;
+    }
+
+    /* 5. Sahne - Mektuplar & Timeline */
+    #scene-5 {
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .letters-container {
+        height: 60vh;
+    }
+
+    .envelope {
+        width: 45px;
+        height: 35px;
+    }
+
+    .flap {
+        border-left: 22.5px solid transparent;
+        border-right: 22.5px solid transparent;
+        border-top: 19px solid #f1c40f;
+    }
+
+    .paper {
+        padding: 10px 12px;
+        margin-left: -30px;
+    }
+
+    .letter-wrapper.opened .paper {
+        margin-left: 15px;
+    }
+
+    .paper p {
+        font-size: 0.8rem;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
+/* --- 6. SAHNE: FİNAL NOTU --- */
+#scene-6 {
+    background: #030303;
+    overflow: hidden;
+}
+
+/* Kayan Yazı (Marquee) Arkaplanı */
+.marquee-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    opacity: 0.08;
+    /* Görseldeki gibi gizemli ve hafif bir saydamlık */
+    z-index: 1;
+    pointer-events: none;
+}
+
+.marquee-row {
+    display: flex;
+    white-space: nowrap;
+    font-family: sans-serif;
+    /* Şeffaf hatlı modern yazı tipi */
+    font-size: 9rem;
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 2px #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.marquee-right {
+    animation: scrollRight 60s linear infinite;
+}
+
+.marquee-left {
+    animation: scrollLeft 60s linear infinite;
+}
+
+@keyframes scrollRight {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Final Kart Tasarımı */
+.final-card {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    height: 320px;
+    perspective: 1000px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.final-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.final-card.flipped .final-card-inner {
+    transform: rotateY(180deg);
+}
+
+.final-card-front,
+.final-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: #0f0f0f;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.final-card-front .final-icon {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.final-card-front h3 {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    font-family: sans-serif;
+    font-style: normal;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.final-card-front .final-hint {
+    color: #666;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.final-card-back {
+    transform: rotateY(180deg);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
+}
+
+.final-card-back p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.final-card-back .signature {
+    margin-top: 15px;
+    font-size: 1.4rem;
+    color: #fff;
+    align-self: flex-end;
+}
+
+/* 6. Sahne Mobil Uyum (CSS'in en altındaki @media (max-width: 600px) içine ekle) */
+@media (max-width: 600px) {
+    .marquee-row {
+        font-size: 5rem;
+        -webkit-text-stroke: 1px #ffffff;
+    }
+
+    .final-card {
+        height: 380px;
+    }
+
+    .final-card-front h3 {
+        font-size: 1.1rem;
+    }
+
+    .final-card-back {
+        padding: 25px;
+    }
+
+    .final-card-back p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .final-card-back .signature {
+        font-size: 1.2rem;
+    }
+}
+
+/* --- 7. SAHNE: DİLEK FENERLERİ --- */
+#scene-7 {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gün batımı arkaplanı (Yumuşak geçiş için before kullanıyoruz) */
+#scene-7::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to top, #4a1d0d 0%, #1a0b14 50%, #000 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+#scene-7.active::before {
+    opacity: 1;
+}
+
+.lantern-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.wish-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.wish-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255, 147, 41, 0.6);
+    color: #ffeb99;
+}
+
+.wish-btn {
+    background: rgba(20, 20, 20, 0.5);
+    color: #ffcc00;
+    border: 1px solid rgba(255, 204, 0, 0.5);
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.1);
+    backdrop-filter: blur(5px);
+    pointer-events: auto;
+    /* Tıklanabilir olması için zorunlu */
+}
+
+.wish-btn:hover {
+    background: rgba(255, 204, 0, 0.1);
+    box-shadow: 0 0 25px rgba(255, 204, 0, 0.5);
+    transform: translateY(-3px) scale(1.02);
+    border-color: rgba(255, 204, 0, 0.8);
+}
+
+/* Dilek Feneri Çizimi ve Işıklandırması */
+.lantern {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 60px;
+    background: rgba(255, 147, 41, 0.85);
+    border-radius: 20px 20px 8px 8px;
+    box-shadow:
+        0 0 20px rgba(255, 147, 41, 0.9),
+        inset 0 0 15px rgba(255, 255, 255, 0.5);
+    animation: floatUp linear forwards;
+    z-index: 1;
+}
+
+/* Fenerin altındaki ateş */
+.lantern::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    background: #ffeb99;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffeb99, 0 0 20px #ff4500;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-60vh) scale(0.9) rotate(4deg);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translateY(-120vh) scale(0.7) rotate(-4deg);
+        opacity: 0;
+    }
+}
+
+/* Mobil için */
+@media (max-width: 600px) {
+    .wish-title {
+        font-size: 2rem;
+        padding: 0 15px;
+    }
+
+    .wish-btn {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+    }
+
+    .lantern {
+        width: 30px;
+        height: 45px;
+    }
+
+    .lantern::after {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* --- 8. SAHNE: BÜYÜK TEKLİF --- */
+#scene-8 {
+    z-index: 10;
+}
+
+/* Teklif Arkaplanı (Kalp patladıktan sonra devreye girer) */
+body.bg-proposal {
+    background: radial-gradient(circle at center, #3a0815 0%, #0a0004 100%) !important;
+}
+
+#interactive-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+#hold-text {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255, 77, 77, 0.8);
+    transition: color 0.3s ease;
+}
+
+/* Basılı tutulacak kalp */
+#interactive-heart {
+    cursor: pointer;
+    transition: transform 0.1s linear;
+    /* JS ile büyüyecek */
+    filter: drop-shadow(0 0 20px rgba(255, 46, 46, 0.8));
+    animation: pulse 2s infinite;
+    /* Mobilde basılı tutunca menü çıkmasını engeller */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 40px rgba(255, 46, 46, 1));
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Patlama Flaşı */
+.flash-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+.flash-effect.active {
+    opacity: 1;
+}
+
+/* Teklif ve Sonuç Ekranları */
+.hidden {
+    display: none !important;
+}
+
+#proposal-phase,
+#success-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+    z-index: 11;
+    animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.proposal-title {
+    font-size: 3.5rem;
+    margin-bottom: 50px;
+    line-height: 1.4;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.proposal-buttons {
+    display: flex;
+    gap: 30px;
+    position: relative;
+}
+
+.btn-yes,
+.btn-no {
+    padding: 15px 50px;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-yes {
+    background: #fff;
+    color: #3a0815;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.btn-yes:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+}
+
+/* Kaçan Hayır Butonu */
+.btn-no {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    position: relative;
+    /* JS ile absolute olacak */
+}
+
+.success-title {
+    font-size: 5rem;
+    color: #ff4d4d;
+    text-shadow: 0 0 40px rgba(255, 77, 77, 0.6);
+}
+
+/* JS Konfeti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    z-index: 100;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+/* 8. Sahne Mobil Uyum (CSS'in en altındaki @media (max-width: 600px) içine ekle) */
+@media (max-width: 600px) {
+    #hold-text {
+        font-size: 1.8rem;
+    }
+
+    .proposal-title {
+        font-size: 2.2rem;
+    }
+
+    .btn-yes,
+    .btn-no {
+        padding: 12px 35px;
+        font-size: 1.2rem;
+    }
+
+    .success-title {
+        font-size: 3rem;
+    }
+}
+
+/* --- ŞİFRE EKRANI (PASSWORD SCREEN) --- */
+body.locked {
+    overflow: hidden !important;
+    /* Şifre girilmeden aşağı kaydırmayı engeller */
+    height: 100vh !important;
+}
+
+#password-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    z-index: 9999;
+    /* En üst katmanda durması için */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+/* Şifre doğru girildiğinde eklenecek class */
+#password-screen.unlocked {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.password-box {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px 50px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    width: 90%;
+    max-width: 420px;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.password-box:hover {
+    transform: translateY(-5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.lock-icon {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.password-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.password-box p {
+    color: #a0a0a0;
+    margin-bottom: 25px;
+    font-family: sans-serif;
+    font-size: 0.95rem;
+}
+
+.input-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+#password-input {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+    font-family: sans-serif;
+}
+
+#password-input:focus {
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+#password-input::placeholder {
+    color: #666;
+}
+
+#password-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+#password-btn:hover {
+    transform: scale(1.1);
+    background: #f0f0f0;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.error-text {
+    color: #ff4d4d !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 0 !important;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.error-text.show {
+    opacity: 1;
+}
+
+/* Şifre Ekranı Mobil Uyum */
+@media (max-width: 600px) {
+    .password-box {
+        padding: 35px 25px;
+    }
+
+    .password-box h2 {
+        font-size: 1.5rem;
+    }
+
+    #password-input {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+
+    #password-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+}

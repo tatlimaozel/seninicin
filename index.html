@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sana Özel</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Playfair Display Fontu -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&display=swap"
+        rel="stylesheet">
+    <!-- İkonlar için FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Beyaz Kalp Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+</head>
+
+<body class="locked">
+    <div id="password-screen">
+        <div class="password-box">
+            <i class="fa-solid fa-lock lock-icon"></i>
+            <h2>Sadece Sana Özel</h2>
+            <p>Şifreyi Gir.</p>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Şifre...">
+                <button id="password-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <p id="password-error" class="error-text">Yanlış şifre, tekrar dene.</p>
+        </div>
+    </div>
+    <canvas id="starfield"></canvas>
+
+    <!-- 1. Sahne: İlk Yazılar -->
+    <div class="text-layer">
+        <h1 id="text-1">Hoş geldin sevgilim...</h1>
+        <h1 id="text-2">Sana özel bir yerim var,</h1>
+        <h1 id="text-3">Hazırlan.</h1>
+    </div>
+
+    <!-- 2. Sahne: Zaman Sayacı -->
+    <div id="scene-2" class="scene">
+        <div class="heart-container">
+            <svg class="heart" viewBox="0 0 32 29.6" width="60" height="60">
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="#ff4d4d" />
+            </svg>
+        </div>
+        <h2 class="timer-title">Seninle geçen her saniye...</h2>
+        <div class="counter-container">
+            <div class="time-box"><span id="days">0</span>
+                <p>Gün</p>
+            </div>
+            <div class="time-box"><span id="hours">00</span>
+                <p>Saat</p>
+            </div>
+            <div class="time-box"><span id="minutes">00</span>
+                <p>Dakika</p>
+            </div>
+            <div class="time-box"><span id="seconds">00</span>
+                <p>Saniye</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Sahne: Ara Geçiş Sorusu -->
+    <div id="scene-3" class="scene">
+        <h2 class="transition-text">Hep soruyorsun neden ben...</h2>
+    </div>
+
+    <!-- 4. Sahne: Neden Sen? (Kartlar) -->
+    <div id="scene-4" class="scene">
+        <h2 class="section-title">Neden sen?</h2>
+        <div class="cards-grid">
+
+            <!-- Kart 1: Gülüşün -->
+            <div class="card" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-solid fa-face-smile icon"></i>
+                        <h3>Gülüşün</h3>
+                        <span class="tap-hint">Dokun</span>
+                    </div>
+                    <div class="card-back">
+                        <p>"En karanlık gecelerimi bile aydınlatan, içimi ısıtan tek güneş."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kart 2: Duruşun -->
+            <div class="card" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-solid fa-person-rays icon"></i>
+                        <h3>Duruşun</h3>
+                        <span class="tap-hint">Dokun</span>
+                    </div>
+                    <div class="card-back">
+                        <p>"Asaletinle her zorluğa meydan okuyan o güçlü tavrın."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kart 3: Merhametin -->
+            <div class="card" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-solid fa-hand-holding-heart icon"></i>
+                        <h3>Merhametin</h3>
+                        <span class="tap-hint">Dokun</span>
+                    </div>
+                    <div class="card-back">
+                        <p>"Yaralı bir kalbi bile iyileştirebilecek kadar naif ve temiz şefkatin."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kart 4: Karakterin -->
+            <div class="card" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-regular fa-gem icon"></i>
+                        <h3>Karakterin</h3>
+                        <span class="tap-hint">Dokun</span>
+                    </div>
+                    <div class="card-back">
+                        <p>"Seni diğer herkesten ayıran, eşsiz ve paha biçilemez ruhun."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kart 5: Sesin -->
+            <div class="card" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-solid fa-music icon"></i>
+                        <h3>Sesin</h3>
+                        <span class="tap-hint">Dokun</span>
+                    </div>
+                    <div class="card-back">
+                        <p>"Bütün gürültülerin sustuğu, dünyadaki en huzurlu melodi."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kart 6: Varlığın -->
+            <div class="card" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-solid fa-infinity icon"></i>
+                        <h3>Varlığın</h3>
+                        <span class="tap-hint">Dokun</span>
+                    </div>
+                    <div class="card-back">
+                        <p>"Bu sonsuz evrende başıma gelen en güzel mucize."</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- 5. Sahne: Mektuplar ve Zaman Çizgisi -->
+    <div id="scene-5" class="scene">
+        <div class="timeline-container">
+            <div class="timeline-track"></div>
+            <div class="timeline-progress" id="timeline-progress"></div>
+        </div>
+        <div class="letters-container">
+            <div class="letter-wrapper" id="letter-1">
+                <div class="envelope">
+                    <div class="flap"></div>
+                </div>
+                <div class="paper">
+                    <p>"Seninle her yeni gün, hayatın bana sunduğu en güzel hediye."</p>
+                </div>
+            </div>
+            <div class="letter-wrapper" id="letter-2">
+                <div class="envelope">
+                    <div class="flap"></div>
+                </div>
+                <div class="paper">
+                    <p>"Gözlerine baktığımda sadece bugünü değil, sonsuz bir geleceği görüyorum."</p>
+                </div>
+            </div>
+            <div class="letter-wrapper" id="letter-3">
+                <div class="envelope">
+                    <div class="flap"></div>
+                </div>
+                <div class="paper">
+                    <p>"Sesini Duyduğum an, dünyadaki tüm fırtınalar diniyor."</p>
+                </div>
+            </div>
+            <div class="letter-wrapper" id="letter-4">
+                <div class="envelope">
+                    <div class="flap"></div>
+                </div>
+                <div class="paper">
+                    <p>"Seni dünden daha çok, yarından daha az seviyorum."</p>
+                </div>
+            </div>
+        </div>
+    </div><!-- 6. Sahne: Final Notu (Marquee Arkaplan ve Flip Kart) -->
+    <div id="scene-6" class="scene">
+        <!-- Arkaplan Kayan Yazılar (Outline) -->
+        <div class="marquee-container">
+            <div class="marquee-row marquee-right">
+                <span>SONSUZLUK &bull; BİZİM HİKAYEMİZ &bull; SONSUZLUK &bull; BİZİM HİKAYEMİZ &bull; SONSUZLUK &bull;
+                    BİZİM HİKAYEMİZ &bull;</span>
+            </div>
+            <div class="marquee-row marquee-left">
+                <span>ÖZLEM &amp; AZİZ &bull; SADECE SEN &bull; ÖZLEM &amp; AZİZ &bull; SADECE SEN &bull; ÖZLEM &amp;
+                    AZİZ &bull; SADECE SEN &bull;</span>
+            </div>
+            <div class="marquee-row marquee-right">
+                <span>SONSUZLUK &bull; BİZİM HİKAYEMİZ &bull; SONSUZLUK &bull; BİZİM HİKAYEMİZ &bull; SONSUZLUK &bull;
+                    BİZİM HİKAYEMİZ &bull;</span>
+            </div>
+        </div>
+
+        <!-- Merkezdeki Tıklanabilir Kart -->
+        <div class="final-card" onclick="this.classList.toggle('flipped')">
+            <div class="final-card-inner">
+                <!-- Ön Yüz -->
+                <div class="final-card-front">
+                    <i class="fa-solid fa-envelope-open-text final-icon"></i>
+                    <h3>SANA BİR NOT...</h3>
+                    <span class="final-hint">(Okumak için dokun)</span>
+                </div>
+                <!-- Arka Yüz -->
+                <div class="final-card-back">
+                    <p>"Bu site, satırlara sığdıramadığım, kodlarla anlatmaya çalıştığım sevgimin sadece küçük bir
+                        yansıması.</p>
+                    <p>Seninle başlayan her hikayenin sonu sonsuzluk olsun."</p>
+                    <span class="signature">- Seni çok seven, Aziz.</span>
+                </div>
+            </div>
+        </div>
+    </div><!-- 7. Sahne: Dilek Fenerleri -->
+    <div id="scene-7" class="scene">
+        <!-- Fenerlerin uçuşacağı konteyner -->
+        <div class="lantern-container" id="lantern-container"></div>
+
+        <!-- Buton ve Yazı -->
+        <div class="wish-content">
+            <h2 class="wish-title">Bizim için bir dilek tut...</h2>
+            <button id="wish-btn" class="wish-btn">Dilek Feneri Uçur</button>
+        </div>
+    </div><!-- 8. Sahne: Kalp ve Büyük Teklif -->
+    <div id="scene-8" class="scene">
+        <!-- Adım 1: Basılı Tutulacak Kalp -->
+        <div id="interactive-phase">
+            <h2 id="hold-text">Basılı Tut...</h2>
+            <div id="interactive-heart">
+                <svg viewBox="0 0 32 29.6" width="100" height="100">
+                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                    c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="#ff2e2e" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Adım 2: Patlama Sonrası Teklif Ekranı -->
+        <div id="proposal-phase" class="hidden">
+            <h1 class="proposal-title">Bana evet deyip sonsuza kadar sevgilim olur musun Özlem?</h1>
+            <div class="proposal-buttons">
+                <button id="btn-yes" class="btn-yes">EVET</button>
+                <button id="btn-no" class="btn-no">HAYIR</button>
+            </div>
+        </div>
+
+        <!-- Adım 3: Mutlu Son -->
+        <div id="success-phase" class="hidden">
+            <h1 class="success-title">Seni Seviyorum Aşkım ❤️</h1>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
